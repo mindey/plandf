@@ -125,4 +125,4 @@ class PlanMaker(object):
                              self.case_value('BEST')],
                              axis=1,
                              keys=['worst', 'mean','best']
-        ).interpolate()
+        )
