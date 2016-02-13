@@ -1,5 +1,7 @@
 from datetime import timedelta
+import settings
 import pandas
+import copy
 
 # local app?
 import stepio
@@ -150,3 +152,14 @@ Examples:
     start_time=pandas.datetime(1995,1,1)
 )
 """
+
+def humanize(df, 
+             hour_value=settings.DEFAULT_HOUR_VALUE_IN_USD,
+             start_time=timedelta(0.),
+             time=lambda x: timedelta(hours=x)):
+    """
+    Display value in some currency, and time in days.
+    """
+    dx = copy.deepcopy(df)
+    dx.index = df.index.map(time)
+    return (dx*hour)
