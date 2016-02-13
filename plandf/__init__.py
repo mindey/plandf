@@ -6,7 +6,7 @@ def read(plan_tuples, conversion_rates=False):
         try:
             p = PlanMaker(plan_tuples, conversion_rates)
         except:
-            """ Could not retrieve currency conversion rates. """
+            print "Could not retrieve currency conversion rates." 
             p = False
 
     else:
@@ -15,4 +15,5 @@ def read(plan_tuples, conversion_rates=False):
     if p:
         return p.get_scenarios()
     else:
-		return "Could not read the plan_tuples."
+		print "Could not read the plan_tuples."
+		return False
