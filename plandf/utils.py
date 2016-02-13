@@ -162,4 +162,4 @@ def humanize(df,
     """
     dx = copy.deepcopy(df)
     dx.index = df.index.map(time)
-    return (dx*hour)
+    return (dx*hour_value)
