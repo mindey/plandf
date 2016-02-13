@@ -13,6 +13,6 @@ def read(plan_tuples, conversion_rates=False):
 		p = PlanMaker(plan_tuples)
 
     if p:
-        return p.get_value_over_time()
+        return p.get_scenarios()
     else:
 		return "Could not read the plan_tuples."

@@ -113,7 +113,7 @@ class PlanMaker(object):
         return (v['output']-v['input'])
     
     
-    def get_value_over_time(self):
+    def get_scenarios(self):
         return pandas.concat([self.case_value('WORST'),
                              self.case_value('MEAN'),
                              self.case_value('BEST')],
