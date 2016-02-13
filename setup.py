@@ -15,5 +15,5 @@ setup(name='plandf',
     extras_require = {
         'conversion_rates':  ["fred==3.1",
                               "requests==2.9.1"],
-    }
+    },
     zip_safe=False)
