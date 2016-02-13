@@ -33,7 +33,13 @@ class PlanMaker(object):
         """
         self.df = utils.plandf(plan_tuples)
         self.df.columns.names = [None, 'Step #ID']
-        self.rates = conversion_rates
+        if 'h' not in conversion_rates.columns:
+            raise Exception("Column 'h' (hour value) must be among columns of conversion_rates. 'h' not found.")
+        else:
+            try:
+                self.rates = conversion_rates/conversion_rates['h'].values[0]
+            except:
+                raise Exception("Could not normalize by hour value. Check if conversion rates are numeric.")
 
     def get_price_unit_values(self, default=pandas.np.nan):
 
