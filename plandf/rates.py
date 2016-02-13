@@ -7,8 +7,12 @@ import pandas
 import settings
 
 class Rates(object):
-    def __init__(self):
+    def __init__(self, OXE_API=False, FRED_API=False):
         self.df = self.ratesdf()
+        if OXE_API:
+            settings.OPENEXCHANGE_APP_ID = OXE_API
+        if FRED_API:
+            settings.FRED_KEY = FRED_API
         self.rebase()
         
     def get_hour_value(self):

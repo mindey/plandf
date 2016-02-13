@@ -2,11 +2,9 @@ from plan_maker import PlanMaker
 
 def read(plan_tuples, conversion_rates=False):
 
-    if conversion_rates:
+    if not isinstance(conversion_rates, bool):
         try:
-            from rates import Rates
-            r = Rates()
-            p = PlanMaker(plan_tuples, conversion_rates=r.df)
+            p = PlanMaker(plan_tuples, conversion_rates)
         except:
             """ Could not retrieve currency conversion rates. """
             p = False
