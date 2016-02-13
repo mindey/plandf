@@ -45,13 +45,13 @@ Using [other](https://openexchangerates.org/) currencies.
 ]
 
 import pandas as pd
-conversion_rates = pd.DataFrame({'h': 25.39,
-                                 'usd': 1.,
-                                 'eur': 1.12565,
-                                 'cny': 0.153078,
-                                 'rub': 0.012709,
-                                 'jpy': 0.008832})
->>> df = plandf.read(breakfast_in_currencies)
+conversion_rates = pd.DataFrame({'h': [25.39],
+                                 'usd': [1.],
+                                 'eur': [1.12565],
+                                 'cny': [0.153078],
+                                 'rub': [0.012709],
+                                 'jpy': [0.008832]})
+>>> df = plandf.read(breakfast_in_currencies,conversion_rates)
 >>> # show worst/mean/best scenarios over time:
 >>> df.to_json()
 '{"worst":{"0.0":0.0,"0.072":-0.0766666667,"0.084":-0.1533333333,"0.096":-0.23,"0.144":-0.1966666667,"0.18":-0.1633333333,"0.216":-0.13,"0.216":-0.1034233333,"0.276":-0.0768466667,"0.336":-0.05027},"mean":{"0.0":0.0,"0.072":-0.115,"0.084":-0.23,"0.096":-0.1906666667,"0.144":-0.1513333333,"0.18":-0.112,"0.216":-0.078735,"0.216":-0.04547,"0.276":-0.012205,"0.336":-0.012205},"best":{"0.0":0.0,"0.072":-0.23,"0.084":-0.1846666667,"0.096":-0.1393333333,"0.144":-0.094,"0.18":-0.0540466667,"0.216":-0.0140933333,"0.216":0.02586,"0.276":0.02586,"0.336":0.02586}}'
@@ -62,5 +62,6 @@ If you have _[OpenExchangeRates](https://openexchangerates.org/)_ or _[Federal R
 
 ```
 import rates
-conversion_rates = rates.Rates().df
+#xrates = rates.Rates(OXE_API='', FRED_API='')
+conversion_rates = xrates.df
 ```
