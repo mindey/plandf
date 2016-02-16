@@ -100,7 +100,7 @@ def set_axis(io_df,
     io_df.ix[-1] = 0.
     io_df.sort_index(inplace=True)
     
-    ix = pandas.to_numeric(io_df['input'][axis], 
+    ix = pandas.to_numeric(io_df['input'][axis].interpolate(), 
                               errors='coerce').cumsum()
     
     indexed_df = pandas.concat({'input': io_df['input'].set_index(ix),
