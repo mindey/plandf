@@ -88,7 +88,11 @@ class PlanMaker(object):
                           input_key='max_units',
                           output_key='max_units',
                           to_numeric=True) ) / 2.
-
+			# Add known means, if 'f_units' is a number:
+            known_units_means = utils.subdf(self.df, input_key='f_units',
+							  output_key='f_units',to_numeric=True)
+            # add dataframe with 'f_units', and fillna(.0)
+            units = utils.replace_known_numeric_values(units, known_units_means)
 
             prices = ( utils.subdf(self.df,
                            input_key='min_price',
@@ -98,6 +102,11 @@ class PlanMaker(object):
                            input_key='max_price',
                            output_key='max_price',
                            to_numeric=True) ) / 2.
+			# Add known means, if 'f_price' is a number:
+            known_price_means = utils.subdf(self.df, input_key='f_price',
+							  output_key='f_price',to_numeric=True)
+            # add dataframe with 'f_units', and fillna(.0)
+            prices = utils.replace_known_numeric_values(prices, known_price_means)
 
         return units * prices * self.get_price_unit_values()
 

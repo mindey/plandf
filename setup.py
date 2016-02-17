@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='plandf',
-    version='0.1.8',
+    version='0.1.9',
     description='Pandas DataFrame for computing Value-Over-Time for lists of tuples (Step.investables, Step.deliverables) of a Plan.',
     url='https://github.com/WeFindX/PlanDF',
     author='Mindey I.',

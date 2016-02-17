@@ -163,3 +163,16 @@ def humanize(df,
     dx = copy.deepcopy(df)
     dx.index = df.index.map(time)
     return (dx*hour_value)
+
+
+"""Add _numeric_ values from one dataframe to another, d2 is priority.
+
+Note: works only on numeric. Safely call like:
+
+replace_known_numeric_values(df1.apply(pandas.to_numeric, errors='coerce'),
+                             df2.apply(pandas.to_numeric, errors='coerce'))
+
+"""
+replace_known_numeric_values = lambda df1, df2: df1[df2.isnull()].fillna(0.) + \
+                                      df2[~df2.isnull()].fillna(0.) + \
+                                      (df1.isnull().applymap(lambda x: pandas.np.nan if x else 0.))
