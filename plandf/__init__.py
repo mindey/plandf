@@ -1,6 +1,4 @@
 from plan_maker import PlanMaker
-import fred
-
 
 def read(plan_tuples, conversion_rates=False):
 
@@ -19,6 +17,10 @@ def read(plan_tuples, conversion_rates=False):
     else:
 		print "Could not read the plan_tuples."
 		return False
+
+import fred
+import requests
+import pandas as pd
 
 class Plan(object):
     def __init__(self):
