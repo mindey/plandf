@@ -25,7 +25,7 @@ import fred
 import requests
 import pandas as pd
 
-class Planner(object):
+class Plan(object):
     def __init__(self):
         self.set_hour_rate()
         self.set_currenc_rates()
@@ -53,7 +53,7 @@ class Planner(object):
         self.rates = pd.DataFrame( dict({'h': [self.hour], 'usd': 1.}, **{key.lower(): 1/currency_rates[key] for ix, key in enumerate(currency_rates)} ) )
         print "Currency values had been set from FIXER IO, check the .rates attribute.\nThe currency 'h' means the time of 1 hour labor, based on FRED API."
 
-    def from_dict(self, plan_dict):
+    def from_records(self, plan_dict):
         self.info = read([(step['input'], step['output']) for step in plan_dict], 
                        conversion_rates=self.rates,
                        scenarios=False)# * (rates['h'] / rates['gbp']).values[0]
