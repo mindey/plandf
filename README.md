@@ -4,7 +4,7 @@ DataFrame for computing Value-Over-Time for lists of tuples (Step.investables, S
 Depends on [pandas.DataFrame](http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html) and [stepio](https://github.com/wefindx/StepIO).
 
 ```
-pip install plandf
+pip install plandf # curently only Python 2.7
 ```
 
 More detailed example is [here](/README.ipynb).
