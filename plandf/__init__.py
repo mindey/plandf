@@ -54,10 +54,10 @@ class Planner(object):
         print "Currency values had been set from FIXER IO, check the .rates attribute.\nThe currency 'h' means the time of 1 hour labor, based on FRED API."
 
     def from_dict(self, plan_dict):
-        self.p = read([(step['input'], step['output']) for step in plan_dict], 
+        self.info = read([(step['input'], step['output']) for step in plan_dict], 
                        conversion_rates=self.rates,
                        scenarios=False)# * (rates['h'] / rates['gbp']).values[0]
-        self.df = self.p.get_scenarios()
+        self.df = self.info.get_scenarios()
         return self.df
 
     def plot(self, figsize=(10,4.5)):
