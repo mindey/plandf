@@ -1,6 +1,6 @@
 from plan_maker import PlanMaker
 
-def read(plan_tuples, conversion_rates=False):
+def read(plan_tuples, conversion_rates=False, scenarios=True):
 
     if not isinstance(conversion_rates, bool):
         try:
@@ -13,7 +13,10 @@ def read(plan_tuples, conversion_rates=False):
 		p = PlanMaker(plan_tuples)
 
     if p:
-        return p.get_scenarios()
+        if scenarios:
+            return p.get_scenarios()
+        else:
+            return p
     else:
 		print "Could not read the plan_tuples."
 		return False
@@ -22,7 +25,7 @@ import fred
 import requests
 import pandas as pd
 
-class Plan(object):
+class Planner(object):
     def __init__(self):
         self.set_hour_rate()
         self.set_currenc_rates()
@@ -51,7 +54,10 @@ class Plan(object):
         print "Currency values had been set from FIXER IO, check the .rates attribute.\nThe currency 'h' means the time of 1 hour labor, based on FRED API."
 
     def from_dict(self, plan_dict):
-        self.df = read([(step['input'], step['output']) for step in plan_dict], self.rates)# * (rates['h'] / rates['gbp']).values[0]
+        self.p = read([(step['input'], step['output']) for step in plan_dict], 
+                       conversion_rates=self.rates,
+                       scenarios=False)# * (rates['h'] / rates['gbp']).values[0]
+        self.df = self.p.get_scenarios()
         return self.df
 
     def plot(self, figsize=(10,4.5)):
