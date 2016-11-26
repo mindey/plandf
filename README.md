@@ -9,7 +9,7 @@ pip install plandf
 ```
 More detailed example is [here](/README.ipynb).
 ## Examples
-Using [hour](https://research.stlouisfed.org/fred2/series/CES0500000003) as currency.
+Using [hour](https://research.stlouisfed.org/fred2/series/CES0500000003) as currency. The ``time`` is a single reserved word, which is treated differently ONLY when it is added in the ``'input'`` value. The ``time`` is also a required item in all the ``'input'`` values.
 
 ### Hello World (1 Step)
 ```{python}
