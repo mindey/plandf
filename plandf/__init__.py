@@ -60,6 +60,9 @@ class Plan(object):
         self.df = self.info.get_scenarios()
         return self.df
 
+    def steps(self, plan_dict):
+        return self.from_records(plan_dict)
+
     def plot(self, figsize=(10,4.5)):
         self.df['worst'].dropna().plot(marker='.', figsize=figsize)
         self.df['mean'].dropna().plot(marker='.', figsize=figsize)
