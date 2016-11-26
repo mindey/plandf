@@ -1,3 +1,4 @@
+[![Travis status](https://img.shields.io/travis/WeFindX/PlanDF/master.svg?style=flat)](https://travis-ci.org/WeFindX/PlanDF)
 # PlanDF
 DataFrame for computing Value-Over-Time for lists of tuples (Step.investables, Step.deliverables) of a Plan.
 
