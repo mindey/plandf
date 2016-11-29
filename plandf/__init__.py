@@ -62,17 +62,29 @@ class Plan(object):
 
     def steps(self, plan_dicts):
         ''' Shorthands '''
-        for step in plan_dicts:
-            if 'in' in step.keys():
-                step['input'] = step['in']
-            if 'out' in step.keys():
-                step['output'] = step['out']
-            if 'i' in step.keys():
-                step['input'] = step['i']
-            if 'o' in step.keys():
-                step['output'] = step['o']
 
-        return self.from_records(plan_dicts)
+        records = []
+
+        for step in plan_dicts:
+            i = ''
+            if 'i' in step.keys():
+                i = step['i']
+            elif 'in' in step.keys():
+                i = step['in']
+            elif 'input' in step.keys():
+                i = step['input']
+
+            o = ''
+            if 'o' in step.keys():
+                o = step['o']
+            elif 'out' in step.keys():
+                o = step['out']
+            elif 'output' in step.keys():
+                o = step['output']
+
+            records.append({'input': i, 'output': o})
+
+        return self.from_records(records)
 
     def plot(self, figsize=(10,4.5)):
         self.df['worst'].dropna().plot(marker='.', figsize=figsize)
