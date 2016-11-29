@@ -53,15 +53,26 @@ class Plan(object):
         self.rates = pd.DataFrame( dict({'h': [self.hour], 'usd': 1.}, **{key.lower(): 1/currency_rates[key] for ix, key in enumerate(currency_rates)} ) )
         print "Currency values had been set from FIXER IO, check the .rates attribute.\nThe currency 'h' means the time of 1 hour labor, based on FRED API."
 
-    def from_records(self, plan_dict):
-        self.info = read([(step['input'], step['output']) for step in plan_dict], 
+    def from_records(self, plan_dicts):
+        self.info = read([(step['input'], step['output']) for step in plan_dicts], 
                        conversion_rates=self.rates,
                        scenarios=False)# * (rates['h'] / rates['gbp']).values[0]
         self.df = self.info.get_scenarios()
         return self.df
 
-    def steps(self, plan_dict):
-        return self.from_records(plan_dict)
+    def steps(self, plan_dicts):
+        ''' Shorthands '''
+        for step in plan_dicts:
+            if 'in' in step.keys():
+                step['input'] = step['in']
+            if 'out' in step.keys():
+                step['output'] = step['out']
+            if 'i' in step.keys():
+                step['input'] = step['i']
+            if 'o' in step.keys():
+                step['output'] = step['o']
+
+        return self.from_records(plan_dicts)
 
     def plot(self, figsize=(10,4.5)):
         self.df['worst'].dropna().plot(marker='.', figsize=figsize)
