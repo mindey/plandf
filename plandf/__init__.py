@@ -86,7 +86,7 @@ class Plan(object):
 
         return self.from_records(records)
 
-    def convert(self, currency='h', convert_time=True)
+    def convert(self, currency='h', convert_time=True):
         import copy
         df = copy.deepcopy(self.df)
 
