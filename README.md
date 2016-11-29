@@ -32,9 +32,20 @@ p.steps([
 p.df
 ```
 
-### Simple Ranged (2 Steps)
+### Hello Loan (Multi-Step)
+* The numbers in the brackets denote the most likely value.
+```{python}
+p.steps(
+    [{'input': 'time: 0@1h; cash: 10000@1usd',
+      'output': 'loan note: 1'}] +
+    [{'input': 'time: 30@24h',
+      'output': 'loan payment: 1@320~375[325]usd'}] * 36
+)
+p.info.df
+```
 
-The numbers in the brackets denote the most likely value.
+### Simple Ranged (2 Steps)
+* The numbers in the brackets denote the most likely value.
 
 ```{python}
 %matplotlib inline
