@@ -25,7 +25,9 @@ import fred
 import requests
 import pandas as pd
 
-class Plan(object):
+
+
+class Constants(object):
     def __init__(self):
         self.set_hour_rate()
         self.set_currenc_rates()
@@ -52,6 +54,17 @@ class Plan(object):
         currency_rates = requests.get('http://api.fixer.io/latest?base=USD').json()['rates']
         self.rates = pd.DataFrame( dict({'h': [self.hour], 'usd': 1.}, **{key.lower(): 1/currency_rates[key] for ix, key in enumerate(currency_rates)} ) )
         print "Currency values had been set from FIXER IO, check the .rates attribute.\nThe currency 'h' means the time of 1 hour labor, based on FRED API."
+
+
+constants = Constants()
+
+class Plan(object):
+    def __init__(self):
+        if const:
+            self.rates = constants.rates
+            self.hour = constants.hour
+        else:
+            print 'No currencies or hour value. Run plandf.init() to load constants.'
 
     def from_records(self, plan_dicts):
         self.info = read([(step['input'], step['output']) for step in plan_dicts], 
