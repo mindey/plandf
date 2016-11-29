@@ -88,25 +88,31 @@ class Plan(object):
 
     def convert(self, currency='h', convert_time=True):
         import copy
+        import datetime
         df = copy.deepcopy(self.df)
 
         if currency in self.rates.columns:
             # Currency
-            df = df * p.rates['h'].values[0] / p.rates[currency].values[0]
+            df = df * self.rates['h'].values[0] / self.rates[currency].values[0]
 
         if convert_time:
             # Time
-            df.index = df.index.map(lambda x: pd.datetools.timedelta(hours=x))
+            df.index = df.index.map(lambda x: datetime.timedelta(hours=x))
 
         return df
 
-    def plot(self, currency='h', convert_time=True, figsize=(10,4.5)):
-        df = self.convert(currency, time)
-        df['worst'].dropna().plot(marker='.', figsize=figsize)
-        df['mean'].dropna().plot(marker='.', figsize=figsize)
-        p = df['best'].dropna().plot(marker='.', figsize=figsize)
-        p.set_ylabel('value (%s)' % (currency,))
-        if convert_time:
+    def plot(self, currency='h', dates=False, figsize=(10,4.5)):
+        self.pf = self.convert(currency, convert_time=dates)
+
+        if dates:
+            p = self.pf.interpolate().plot(marker='.', figsize=figsize)
+        else:
+            self.pf['worst'].dropna().plot(marker='.', figsize=figsize)
+            self.pf['mean'].dropna().plot(marker='.', figsize=figsize)
+            p = self.pf['best'].dropna().plot(marker='.', figsize=figsize)
+
+        p.set_ylabel('value (%s)' % (currency.upper(),))
+        if dates:
             label = ''
         else:
             label = 'h, '
