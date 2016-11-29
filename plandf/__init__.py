@@ -60,7 +60,7 @@ constants = Constants()
 
 class Plan(object):
     def __init__(self):
-        if const:
+        if constants:
             self.rates = constants.rates
             self.hour = constants.hour
         else:
