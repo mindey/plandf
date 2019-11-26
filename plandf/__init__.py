@@ -5,7 +5,7 @@ import copy
 import datetime
 
 from plandf.plan_maker import PlanMaker
-from plandf.settings import DEFAULT_HOUR_VALUE_IN_USD
+from plandf import settings
 
 
 def read(plan_tuples, conversion_rates=True, scenarios=True):
@@ -40,10 +40,10 @@ class Constants(object):
         pass
 
     def set_defaults(self):
-        self.hour = DEFAULT_HOUR_VALUE_IN_USD
+        self.hour = settings.DEFAULT_HOUR_VALUE_IN_USD
 
         self.rates = pd.DataFrame({
-            'h':   [DEFAULT_HOUR_VALUE_IN_USD],
+            'h':   [settings.DEFAULT_HOUR_VALUE_IN_USD],
             'usd': [1.],
             'eur': [1.101473],
             'cny': [0.142244],
@@ -55,8 +55,13 @@ class Constants(object):
         self.set_currenc_rates()
 
     def set_currenc_rates(self):
-        currency_rates = requests.get('http://data.fixer.io/api/latest?access_key=9d0827a2d50b8b6ea66ebf8a98c0dff7&format=1').json()['rates']
+        if not settings.FIXER_API_KEY:
+            print("Set settings FIXER_KEY. Get one at https://fixer.io")
+
+        currency_rates = requests.get('http://data.fixer.io/api/latest?access_key={}&format=1'.format(settings.FIXER_API_KEY)).json()['rates']
+
         self.rates = pd.DataFrame( dict({'h': [self.hour], 'eur': 1.}, **{key.lower(): 1/currency_rates[key] for ix, key in enumerate(currency_rates)} ) )
+
         print("Currency values had been set from FIXER IO, check the .rates attribute.\nThe currency 'h' means the time of 1 hour labor, based on FRED API.")
 
     def set_hour_rate(self, h=None):
@@ -65,17 +70,23 @@ class Constants(object):
             print("Hour value of work (self.hour) was set to %s usd from FRED API. Retrieving currency rates.." % self.hour)
             self.set_currenc_rates()
             print("Done.")
+
         else:
-            fred.key('0c9a5ec8dd8c63ab8cbec6514a8f5b37')
-            last_observation = fred.observations(
-                settings.FRED_SERIES)['observations'][-1]
+            if not settings.FRED_KEY:
+                print("Set settings FRED_KEY. Get one at https://fred.stlouisfed.org")
+
+            fred.key(settings.FRED_KEY)
+
+            last_observation = fred.observations(settings.FRED_SERIES)['observations'][-1]
+
             h = last_observation['value']
+
             try:
                 self.hour = float(h)
                 print("Hour value of work (self.hour) was set to %s usd from FRED API." % self.hour)
             except:
                 self.hour = 28.18
-                print("Failed to retrieve rates from FRED API. Assuming 1h = 28.18usd.")
+                print("Failed to retrieve rates from FRED API. Assuming 1h = 28.18 usd.")
 
 constants = Constants()
 
