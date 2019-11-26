@@ -10,5 +10,4 @@ OPENEXCHANGE_URL = 'https://openexchangerates.org/api/latest.json'
 # [Optional] Hour value ( get one at api.stlouisfed.org )
 FRED_KEY = ''
 FRED_SERIES = 'CES0500000003'
-DEFAULT_HOUR_VALUE_IN_USD = 25.0
-
+DEFAULT_HOUR_VALUE_IN_USD = 28.18

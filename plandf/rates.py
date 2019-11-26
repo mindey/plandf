@@ -6,7 +6,9 @@ import pandas
 # local app
 import settings
 
+
 class Rates(object):
+
     def __init__(self, OXE_API=False, FRED_API=False):
         self.df = self.ratesdf()
         if OXE_API:
@@ -14,11 +16,11 @@ class Rates(object):
         if FRED_API:
             settings.FRED_KEY = FRED_API
         self.rebase()
-        
+
     def get_hour_value(self):
         fred.key(settings.FRED_KEY)
         last_observation = fred.observations(
-			settings.FRED_SERIES)['observations'][-1]
+            settings.FRED_SERIES)['observations'][-1]
         h = last_observation['value']
         try:
             return float(h)
@@ -36,7 +38,7 @@ class Rates(object):
         df = pandas.DataFrame.from_records([self.currency_rates['rates']])
         df.columns = [col.lower() for col in df.columns]
         return df
-    
+
     def rebase(self,base='h'):
         self.hour_value = self.get_hour_value()
         # We express everything interms of hours

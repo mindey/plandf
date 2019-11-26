@@ -1,5 +1,5 @@
 from datetime import timedelta
-import settings
+from plandf import settings
 import pandas
 import copy
 
@@ -8,9 +8,9 @@ import stepio
 
 """Make one DataFrame from a list of StepIO items."""
 make_df = lambda l: pandas.DataFrame.from_records([
-        pandas.Series(data=map(lambda x: x[x.keys()[0]],
-                                stepio.parse(s)),
-                      index=zip(*stepio.parse(s))[0])
+        pandas.Series(
+            data=map(lambda x: x[list(x.keys())[0]], stepio.parse(s)),
+            index=list(zip(*stepio.parse(s)))[0])
         for s in l])
 """
 Examples:
@@ -32,9 +32,9 @@ def plandf(plan_tuples):
     Makes two tables with groups of columns ['input', 'output']
     """
     i, o = zip(*plan_tuples)
-    return pandas.concat({'input': make_df(i), 
-                          'output': make_df(o)},
-                           axis=1)
+    return pandas.concat({
+        'input': make_df(i),
+        'output': make_df(o)}, axis=1)
 
 """
 Example:
@@ -54,7 +54,7 @@ Example:
 def subdf(df, input_key='max_price', output_key='min_price', to_numeric=False):
     """
     Extracts a sub-DataFrame by a chosen key for different 'input' and 'output' group.
-    
+
     Note: to_numeric must be False, because we have units like 'h', 'usd', etc.
     """
     io_df = pandas.concat({'input':
@@ -92,17 +92,17 @@ def set_axis(io_df,
             time_unit=lambda x: timedelta(hours=x)):
     """
     Sets a chosen column from 'input' column group, and makes it DataFrame index.
-    
+
     Optionally, converts index to DateTime by a chosen unit.
     """
 
     # add empty row to represent start from zero
-    io_df.ix[-1] = 0.
+    io_df.loc[-1] = 0.
     io_df.sort_index(inplace=True)
-    
-    ix = pandas.to_numeric(io_df['input'][axis].interpolate(), 
+
+    ix = pandas.to_numeric(io_df['input'][axis].interpolate(),
                               errors='coerce').cumsum()
-    
+
     indexed_df = pandas.concat({'input': io_df['input'].set_index(ix),
                                'output': io_df['output'].set_index(ix)},
         axis=1
@@ -153,7 +153,7 @@ Examples:
 )
 """
 
-def humanize(df, 
+def humanize(df,
              hour_value=settings.DEFAULT_HOUR_VALUE_IN_USD,
              start_time=timedelta(0.),
              time=lambda x: timedelta(hours=x)):
