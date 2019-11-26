@@ -34,10 +34,6 @@ def read(plan_tuples, conversion_rates=True, scenarios=True):
 
 
 class Constants(object):
-    def __init__(self):
-        # self.set_hour_rate()
-        # self.set_currenc_rates()
-        pass
 
     def set_defaults(self):
         self.hour = settings.DEFAULT_HOUR_VALUE_IN_USD
